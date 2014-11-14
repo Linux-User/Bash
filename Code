@@ -1,0 +1,64 @@
+#!/bin/bash
+# the list of menu items to pick from
+showMenu () {
+        echo "1)Lookup help on a command using man"
+        echo "2)Display file system disk space usage in megabytes"
+        echo "3)Display memory usage in megabytes with a line containing totals"
+		    echo "4)List all current processes"
+		    echo "5)Monitor top system processes"
+		    echo "6)Display system uptime"
+		    echo "7)Zip a File or Folder"
+		    echo "8) quit"
+}
+
+#while will loop around till force quit using exit
+while true; [ 1 ]
+do
+        showMenu # displays the menu
+        read CHOICE
+        case "$CHOICE" in
+                "1")
+                      echo "please type what you require the manual for"
+          			  read  -p "Input Selection:" 
+      			      exec man echo "Input Selection:" | more
+      			      return
+                      	;;
+                      
+                "2")
+                       echo "Display Disk Space in mb"
+        			    exec df -h | more
+                        ;;
+                "3")
+                        echo "memory usage in megabytes"
+         			    exec free -m | more
+                        ;;
+                "4")
+                        echo "current processes"
+            			exec ps aux | less
+          			    #exec ps aux | more
+                        ;;
+                "5")
+                         echo "list of the top processes"
+           				 exec top | more
+                        ;;
+                "6")
+                        echo "Current System Uptime"
+           				exec uptime | more
+                        ;;
+                "7")
+                       echo "going to backup folders from the text file :p"
+                       NOW=$(date +"%m-%d-%Y")
+                       file="/home/mike/Desktop/kyle/test2.txt"
+                       name=$(cat $file ) 
+                       for file in $file
+                       do
+                        echo $name
+                       exec tar czvf "$NOW.tar.gz" $name | more $NOW >> "$NOW" 
+                       done
+                        ;;
+                "8")
+                        exit
+                        ;;
+      
+                       esac
+done
